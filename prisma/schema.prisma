@@ -1,0 +1,85 @@
+// Prisma schema for the India-focused dropshipping store.
+// Money is stored in paise (integers) everywhere to avoid float bugs.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  slug        String      @unique // e.g. "mini-usb-air-cooler"
+  title       String
+  description String // long, sell-focused copy
+  images      String[] // Cloudinary URLs, first = primary
+  price       Int // selling price in paise (₹999 = 99900)
+  compareAt   Int? // MRP / strike-through price in paise
+  costPrice   Int // our supplier cost in paise (admin only, for margin)
+  stock       Int         @default(999) // soft stock; dropship so keep high
+  category    String // "cooling" | "kitchen" | "toys" | ...
+  active      Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  orderItems  OrderItem[]
+}
+
+model Coupon {
+  id        String   @id @default(cuid())
+  code      String   @unique // e.g. "MLBB10"
+  type      String // "percent" | "flat"
+  value     Int // 10 (percent) or amount in paise (flat)
+  active    Boolean  @default(true)
+  source    String? // "influencer:mlbb_friend" for attribution
+  maxUses   Int? // optional cap
+  usedCount Int      @default(0)
+  createdAt DateTime @default(now())
+  orders    Order[]
+}
+
+model Order {
+  id                String      @id @default(cuid())
+  orderNumber       String      @unique // human-friendly e.g. "SS-1042"
+  customerName      String
+  phone             String // Indian mobile, validated
+  email             String?
+  address1          String
+  address2          String?
+  city              String
+  state             String
+  pincode           String // 6-digit, validated
+  items             OrderItem[]
+  subtotal          Int // paise
+  discount          Int         @default(0) // paise
+  shippingFee       Int         @default(0) // paise
+  total             Int // paise
+  paymentMethod     String // "prepaid" | "cod"
+  paymentStatus     String      @default("pending") // "pending" | "paid" | "failed" | "cod_pending"
+  fulfillmentStatus String      @default("new") // "new" | "confirmed" | "shipped" | "delivered" | "rto" | "cancelled"
+  razorpayOrderId   String?
+  razorpayPaymentId String?
+  couponId          String?
+  coupon            Coupon?     @relation(fields: [couponId], references: [id])
+  couponCode        String? // denormalized for easy reporting
+  refSource         String? // utm_source / ?ref= second attribution signal
+  createdAt         DateTime    @default(now())
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  title     String // snapshot of title at purchase time
+  price     Int // snapshot of price (paise)
+  quantity  Int
+}
+
+model AdminUser {
+  id           String @id @default(cuid())
+  email        String @unique
+  passwordHash String
+}
