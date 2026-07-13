@@ -1,74 +1,115 @@
 /**
  * Database seed script.
  *
- * IMPORTANT: The products below are PLACEHOLDERS. Replace them with your real
- * product details, prices (in paise), and Cloudinary image URLs before going
- * live. Run with:  npm run db:seed
+ * Product data comes from PRODUCTS_SEED.md. Prices are in PAISE (₹549 => 54900).
+ * Images use labeled placeholders (placehold.co) so the store renders before
+ * real photos exist — replace them from Admin → Products (Cloudinary upload)
+ * or by editing the URLs below.
  *
- * Prices are in PAISE: ₹999 => 99900.
+ * Run with:  npm run db:seed
  */
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-// --- Placeholder products (replace with real data) --------------------------
+function placeholder(label: string): string {
+  const text = encodeURIComponent(label);
+  return `https://placehold.co/800x800/f97316/ffffff?text=${text}`;
+}
+
+// --- Products (from PRODUCTS_SEED.md) ---------------------------------------
 const products = [
   {
     slug: "portable-neck-fan",
-    title: "Portable Bladeless Neck Fan (Rechargeable)",
-    description:
-      "Stay cool anywhere with this hands-free bladeless neck fan.\n\n• 3 speed settings\n• USB-C rechargeable, up to 8 hours\n• Bladeless & hair-safe design\n• Lightweight, wearable all day\n\nPerfect for commutes, outdoor work, travel and Indian summers.",
-    images: [
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800",
-    ],
-    price: 79900, // ₹799
-    compareAt: 149900, // ₹1499
-    costPrice: 35000, // ₹350
+    title: "Portable Rechargeable Neck Fan",
     category: "cooling",
+    price: 54900,
+    compareAt: 129900,
+    costPrice: 16500,
     stock: 999,
+    images: [placeholder("Neck Fan")],
+    description:
+      "Beat the heat hands-free. This lightweight, bladeless neck fan wraps comfortably around your neck and keeps cool air flowing for up to 4 hours on a single USB charge.\n\n• Up to 4 hours of cooling per charge\n• Bladeless & safe — no hair tangling\n• 3 speed settings, ultra-quiet motor\n• USB-C rechargeable, lightweight & travel-friendly\n\nPerfect for commutes, gaming marathons, outdoor work, and long summer days.",
+    active: true,
   },
   {
     slug: "mini-usb-air-cooler",
-    title: "Mini USB Air Cooler for Desk",
-    description:
-      "A compact personal air cooler for your desk or bedside.\n\n• Water-based cooling with ice tray\n• 3 fan speeds + 7-colour night light\n• USB powered — plug into laptop or power bank\n• Quiet operation\n\nGreat for study tables, work desks and small rooms.",
-    images: [
-      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800",
-    ],
-    price: 99900, // ₹999
-    compareAt: 199900, // ₹1999
-    costPrice: 45000,
+    title: "Mini USB Personal Air Cooler",
     category: "cooling",
+    price: 109900,
+    compareAt: 199900,
+    costPrice: 40000,
     stock: 999,
+    images: [placeholder("Mini Cooler")],
+    description:
+      "Your personal cooling zone, anywhere. Fill the water tank, plug it in, and enjoy cool, misted air right at your desk, bedside, or study table.\n\n• Water-cooled misting for instant relief\n• USB powered — works with power banks & laptops\n• Multi-speed with 7-colour LED night light\n• Compact, quiet, and portable\n\nNote: this is a personal evaporative cooler for close-range cooling — not a replacement for an air conditioner.",
+    active: true,
   },
   {
-    slug: "kitchen-organizer-rack",
-    title: "Multipurpose Kitchen Organizer Rack",
-    description:
-      "Declutter your kitchen with this sturdy multipurpose rack.\n\n• Rust-proof coated steel\n• Holds spices, bottles, utensils\n• Easy no-drill setup\n• Space-saving design\n\nKeeps your counter tidy and everything within reach.",
-    images: [
-      "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=800",
-    ],
-    price: 59900, // ₹599
-    compareAt: 119900,
-    costPrice: 25000,
+    slug: "fridge-organizer-bins-set",
+    title: "Fridge Organizer Bins (Set of 4)",
     category: "kitchen",
+    price: 99900,
+    compareAt: 179900,
+    costPrice: 30000,
     stock: 999,
+    images: [placeholder("Fridge Bins")],
+    description:
+      "Turn your messy fridge into a satisfyingly organized space. This set of 4 clear, stackable bins with cut-out handles makes it easy to store fruits, veggies, drinks, and leftovers — and pull them out in one motion.\n\n• Set of 4 stackable, clear bins\n• Easy-grip handles, pull out in one motion\n• BPA-free, washable, food-safe\n• Works in fridge, pantry, bathroom & more",
+    active: true,
   },
   {
-    slug: "sensory-fidget-toy-set",
-    title: "Sensory Fidget Toy Set (Pack of 6)",
-    description:
-      "A calming set of sensory fidget toys for kids and adults.\n\n• 6 different textures & mechanisms\n• Stress and anxiety relief\n• BPA-free, safe materials\n• Great gift idea\n\nHelps focus and relaxation, at home or on the go.",
-    images: [
-      "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=800",
-    ],
-    price: 49900, // ₹499
-    compareAt: 99900,
-    costPrice: 18000,
+    slug: "sensory-squeeze-toy",
+    title: "Sensory Squeeze Stress Toy",
     category: "toys",
+    price: 44900,
+    compareAt: 99900,
+    costPrice: 15000,
     stock: 999,
+    images: [placeholder("Squeeze Toy")],
+    description:
+      "The oddly satisfying squeeze everyone's talking about. This super-soft sensory toy squishes, stretches, and slowly returns to shape — perfect for stress relief, focus, and fidgeting during study or gaming.\n\n• Ultra-satisfying slow-rise squish\n• Great for stress relief & focus\n• Soft, durable, and travel-sized\n• Fun gift for all ages (colour may vary)",
+    active: true,
+  },
+  {
+    slug: "summer-cooling-combo",
+    title: "Summer Cooling Combo (Neck Fan + Mini Cooler)",
+    category: "cooling",
+    price: 139900,
+    compareAt: 329800,
+    costPrice: 56500,
+    stock: 999,
+    images: [placeholder("Cooling Combo")],
+    description:
+      "The ultimate personal cooling kit — get the Portable Neck Fan AND the Mini USB Air Cooler together and save big. Stay cool at your desk and on the move. Perfect gift for the summer.",
+    active: true,
+  },
+];
+
+// --- Coupons (from PRODUCTS_SEED.md) ----------------------------------------
+// value for "flat" coupons is in PAISE; for "percent" it is a whole percentage.
+const coupons = [
+  {
+    code: "MLBB10",
+    type: "percent",
+    value: 10,
+    source: "influencer:mlbb_friend",
+    active: true,
+  },
+  {
+    code: "WELCOME50",
+    type: "flat",
+    value: 5000, // ₹50 in paise
+    source: "site:welcome",
+    active: true,
+  },
+  {
+    code: "PREPAID5",
+    type: "percent",
+    value: 5,
+    source: "site:prepaid_nudge",
+    active: true,
   },
 ];
 
@@ -82,20 +123,21 @@ async function main() {
     });
   }
 
-  console.log("Seeding influencer coupon MLBB10...");
-  await prisma.coupon.upsert({
-    where: { code: "MLBB10" },
-    update: {},
-    create: {
-      code: "MLBB10",
-      type: "percent",
-      value: 10, // 10% off
-      active: true,
-      source: "influencer:mlbb_friend",
-    },
-  });
+  console.log("Seeding coupons...");
+  for (const c of coupons) {
+    await prisma.coupon.upsert({
+      where: { code: c.code },
+      update: {
+        type: c.type,
+        value: c.value,
+        source: c.source,
+        active: c.active,
+      },
+      create: c,
+    });
+  }
 
-  // Seed an admin user from env if provided and none exists yet.
+  // Seed an admin user from env if provided.
   const adminEmail = process.env.ADMIN_EMAIL;
   const adminHash = process.env.ADMIN_PASSWORD_HASH;
   if (adminEmail && adminHash) {
@@ -106,7 +148,6 @@ async function main() {
     });
     console.log(`Admin user ready: ${adminEmail}`);
   } else if (adminEmail && process.env.ADMIN_PASSWORD) {
-    // Convenience: hash a plaintext ADMIN_PASSWORD if provided.
     const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD, 10);
     await prisma.adminUser.upsert({
       where: { email: adminEmail },
