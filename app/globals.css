@@ -2,9 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Design tokens — DESIGN_GUIDE §2 (Theme A "Fresh Cool") & §6. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand */
+  --color-primary: 14 165 165; /* teal-500 (#0ea5a5) as RGB channels for alpha support */
+  --color-primary-hover: #0b8a8a;
+  --color-primary-fg: #ffffff;
+
+  /* Neutrals */
+  --color-bg: #ffffff;
+  --color-surface: #f7f8f8;
+  --color-border: #e6e8ea;
+  --color-text: 15 23 32; /* #0f1720 as RGB channels for alpha support */
+  --color-text-muted: #5b6570;
+
+  /* Accents / semantic */
+  --color-accent: #f59e0b; /* amber — savings/urgency ONLY */
+  --color-success: #16a34a;
+  --color-danger: #dc2626;
+  --color-strike: #9aa4ae;
 }
 
 html {
@@ -12,34 +28,67 @@ html {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: rgb(var(--color-text));
+  background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings use the display face (DESIGN_GUIDE §3). */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-jakarta), var(--font-inter), sans-serif;
+  color: rgb(var(--color-text));
+}
+
+/* Respect reduced-motion preferences (DESIGN_GUIDE §6/§11). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @layer components {
+  /* Buttons — DESIGN_GUIDE §7. h-11 (44px) meets the mobile tap target. */
   .btn {
-    @apply inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex h-11 items-center justify-center rounded-md px-5 text-sm font-semibold transition-colors duration-200 ease-out focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
   }
   .btn-primary {
-    @apply btn bg-brand-600 text-white hover:bg-brand-700 focus:ring-brand-500;
+    @apply btn bg-primary text-primary-fg hover:bg-primary-hover;
   }
   .btn-secondary {
-    @apply btn border border-gray-300 bg-white text-gray-800 hover:bg-gray-50 focus:ring-gray-400;
+    @apply btn border border-hairline bg-white text-foreground hover:bg-surface;
   }
   .btn-dark {
-    @apply btn bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-700;
+    @apply btn bg-foreground text-white hover:opacity-90;
   }
+
+  /* Inputs — DESIGN_GUIDE §7. */
   .input {
-    @apply w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm shadow-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500;
+    @apply h-11 w-full rounded-sm border border-hairline bg-white px-3 text-sm text-foreground placeholder:text-foreground-muted focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30;
   }
   .label {
-    @apply mb-1 block text-sm font-medium text-gray-700;
+    @apply mb-1 block text-sm font-medium text-foreground;
   }
+
+  /* Flat card with a 1px border; shadow only on hover (DESIGN_GUIDE §6). */
   .card {
-    @apply rounded-xl border border-gray-200 bg-white shadow-sm;
+    @apply rounded-md border border-hairline bg-white;
   }
+
   .container-page {
-    @apply mx-auto w-full max-w-content px-4 sm:px-6;
+    @apply mx-auto w-full max-w-content px-4 md:px-6;
+  }
+
+  /* Pill chips / badges (DESIGN_GUIDE §7). */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold;
   }
 }

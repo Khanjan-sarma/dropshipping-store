@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { ShoppingCart, X } from "lucide-react";
 import { useCart } from "@/lib/store/cart";
 import { formatINR } from "@/lib/money";
 import { FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_FEE } from "@/lib/pricing";
@@ -81,7 +82,10 @@ export default function CartPage() {
   if (lines.length === 0) {
     return (
       <div className="container-page py-16 text-center">
-        <div className="text-5xl">🛒</div>
+        <ShoppingCart
+          className="mx-auto h-12 w-12 text-foreground-muted"
+          aria-hidden
+        />
         <h1 className="mt-4 text-2xl font-bold text-gray-900">
           Your cart is empty
         </h1>
@@ -122,16 +126,16 @@ export default function CartPage() {
                 <div className="flex justify-between gap-2">
                   <Link
                     href={`/product/${line.slug}`}
-                    className="line-clamp-2 text-sm font-medium text-gray-900 hover:text-brand-600"
+                    className="line-clamp-2 text-sm font-medium text-gray-900 hover:text-primary"
                   >
                     {line.title}
                   </Link>
                   <button
                     onClick={() => removeItem(line.productId)}
-                    className="text-sm text-gray-400 hover:text-red-500"
+                    className="text-gray-400 hover:text-danger"
                     aria-label="Remove"
                   >
-                    ✕
+                    <X className="h-4 w-4" aria-hidden />
                   </button>
                 </div>
                 <div className="flex items-center justify-between">

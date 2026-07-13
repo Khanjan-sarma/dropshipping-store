@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft, AlertTriangle } from "lucide-react";
 import { getOrderById } from "@/lib/adminData";
 import { formatINR } from "@/lib/money";
 import { StatusBadge } from "@/components/admin/StatusBadge";
@@ -19,9 +20,9 @@ export default async function AdminOrderDetailPage({
     <div>
       <Link
         href="/admin/orders"
-        className="text-sm text-gray-500 hover:text-brand-600"
+        className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-primary"
       >
-        ← Back to orders
+        <ArrowLeft className="h-4 w-4" aria-hidden /> Back to orders
       </Link>
 
       <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
@@ -42,9 +43,12 @@ export default async function AdminOrderDetailPage({
       </p>
 
       {order.paymentMethod === "cod" && order.fulfillmentStatus === "new" && (
-        <div className="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
-          ⚠️ COD order — confirm with the customer on WhatsApp before shipping
-          to reduce RTO.
+        <div className="mt-4 flex items-start gap-2 rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
+          <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden />
+          <span>
+            COD order — confirm with the customer on WhatsApp before shipping to
+            reduce RTO.
+          </span>
         </div>
       )}
 

@@ -18,7 +18,7 @@ export function AdminNav() {
       <div className="container-page flex h-14 items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/admin/orders" className="font-extrabold">
-            <span className="text-brand-600">Shop</span>Sprint{" "}
+            <span className="text-primary">Shop</span>Sprint{" "}
             <span className="text-xs font-medium text-gray-400">admin</span>
           </Link>
           <nav className="flex items-center gap-1">
@@ -30,7 +30,7 @@ export function AdminNav() {
                   href={l.href}
                   className={`rounded-md px-3 py-1.5 text-sm font-medium ${
                     active
-                      ? "bg-brand-50 text-brand-700"
+                      ? "bg-surface text-primary"
                       : "text-gray-600 hover:bg-gray-100"
                   }`}
                 >

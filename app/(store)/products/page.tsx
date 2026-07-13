@@ -25,6 +25,7 @@ async function getProducts(category?: string) {
       },
       orderBy: { createdAt: "desc" },
       select: {
+        id: true,
         slug: true,
         title: true,
         images: true,
@@ -46,49 +47,61 @@ export default async function ProductsPage({
   const products = await getProducts(category);
 
   return (
-    <div className="container-page py-8">
-      <h1 className="text-2xl font-bold text-gray-900">
+    <div className="container-page py-10 md:py-16">
+      <h1 className="text-h1 md:text-[2rem]">
         {category ? categoryLabel(category) : "All Products"}
       </h1>
 
       {/* Category filter */}
-      <div className="mt-4 flex flex-wrap gap-2">
-        <Link
-          href="/products"
-          className={`rounded-full border px-4 py-1.5 text-sm font-medium ${
-            !category
-              ? "border-brand-600 bg-brand-600 text-white"
-              : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-          }`}
-        >
+      <div className="mt-6 flex flex-wrap gap-2">
+        <FilterChip href="/products" active={!category}>
           All
-        </Link>
+        </FilterChip>
         {CATEGORIES.map((c) => (
-          <Link
+          <FilterChip
             key={c.slug}
             href={`/products?category=${c.slug}`}
-            className={`rounded-full border px-4 py-1.5 text-sm font-medium ${
-              category === c.slug
-                ? "border-brand-600 bg-brand-600 text-white"
-                : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-            }`}
+            active={category === c.slug}
           >
             {c.label}
-          </Link>
+          </FilterChip>
         ))}
       </div>
 
       {products.length === 0 ? (
-        <p className="mt-8 rounded-lg border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500">
+        <p className="mt-8 rounded-md border border-dashed border-hairline p-8 text-center text-sm text-foreground-muted">
           No products found in this category.
         </p>
       ) : (
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6 lg:grid-cols-4">
           {products.map((p) => (
             <ProductCard key={p.slug} product={p} />
           ))}
         </div>
       )}
     </div>
+  );
+}
+
+function FilterChip({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`chip border transition-colors ${
+        active
+          ? "border-primary bg-primary text-primary-fg"
+          : "border-hairline bg-white text-foreground-muted hover:bg-surface"
+      }`}
+    >
+      {children}
+    </Link>
   );
 }

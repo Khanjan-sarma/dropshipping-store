@@ -461,18 +461,18 @@ function PaymentOption({
     <button
       type="button"
       onClick={onSelect}
-      className={`flex w-full items-start gap-3 rounded-xl border p-3 text-left transition-colors ${
+      className={`flex w-full items-start gap-3 rounded-md border p-4 text-left transition-colors ${
         selected
-          ? "border-brand-600 bg-brand-50"
-          : "border-gray-300 hover:bg-gray-50"
+          ? "border-primary bg-surface"
+          : "border-hairline hover:bg-surface"
       }`}
     >
       <span
         className={`mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 ${
-          selected ? "border-brand-600" : "border-gray-400"
+          selected ? "border-primary" : "border-strike"
         }`}
       >
-        {selected && <span className="h-2.5 w-2.5 rounded-full bg-brand-600" />}
+        {selected && <span className="h-2.5 w-2.5 rounded-full bg-primary" />}
       </span>
       <span className="flex-1">
         <span className="flex items-center gap-2">

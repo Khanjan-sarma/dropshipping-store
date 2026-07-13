@@ -15,13 +15,13 @@ export function Gallery({
 
   return (
     <div>
-      <div className="relative aspect-square overflow-hidden rounded-xl bg-gray-100">
+      <div className="relative aspect-square overflow-hidden rounded-lg border border-hairline bg-surface">
         <Image
           src={list[active]}
           alt={title}
           fill
           priority
-          sizes="(max-width: 768px) 100vw, 50vw"
+          sizes="(max-width: 768px) 100vw, 55vw"
           className="object-cover"
         />
       </div>
@@ -31,18 +31,12 @@ export function Gallery({
             <button
               key={i}
               onClick={() => setActive(i)}
-              className={`relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 ${
-                i === active ? "border-brand-600" : "border-transparent"
+              className={`relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-sm border-2 ${
+                i === active ? "border-primary" : "border-hairline"
               }`}
               aria-label={`View image ${i + 1}`}
             >
-              <Image
-                src={img}
-                alt=""
-                fill
-                sizes="64px"
-                className="object-cover"
-              />
+              <Image src={img} alt="" fill sizes="64px" className="object-cover" />
             </button>
           ))}
         </div>

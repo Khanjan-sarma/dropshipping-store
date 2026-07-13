@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Check } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { formatINR } from "@/lib/money";
 
@@ -32,8 +33,8 @@ export default async function SuccessPage({
   return (
     <div className="container-page py-12">
       <div className="mx-auto max-w-lg text-center">
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-3xl">
-          ✓
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+          <Check className="h-8 w-8 text-success" aria-hidden />
         </div>
         <h1 className="mt-6 text-2xl font-bold text-gray-900">
           Thank you for your order!
@@ -82,7 +83,7 @@ export default async function SuccessPage({
           </div>
         )}
 
-        <div className="mt-6 rounded-xl bg-brand-50 p-4 text-left text-sm text-gray-700">
+        <div className="mt-6 rounded-md bg-surface p-4 text-left text-sm text-gray-700">
           <h3 className="font-semibold text-gray-900">What happens next?</h3>
           <ol className="mt-2 list-decimal space-y-1 pl-5">
             <li>We&apos;ll confirm your order details.</li>

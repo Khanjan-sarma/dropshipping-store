@@ -34,7 +34,7 @@ export default async function AdminOrdersPage({
               href={f.value ? `/admin/orders?paymentStatus=${f.value}` : "/admin/orders"}
               className={`rounded-full border px-3 py-1 text-sm font-medium ${
                 paymentStatus === f.value
-                  ? "border-brand-600 bg-brand-600 text-white"
+                  ? "border-primary bg-primary text-white"
                   : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
               }`}
             >
@@ -72,7 +72,7 @@ export default async function AdminOrdersPage({
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/orders/${o.id}`}
-                      className="font-semibold text-brand-600 hover:underline"
+                      className="font-semibold text-primary hover:underline"
                     >
                       {o.orderNumber}
                     </Link>

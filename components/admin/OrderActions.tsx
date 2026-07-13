@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Check } from "lucide-react";
 import { formatINR } from "@/lib/money";
 
 type OrderItem = { title: string; price: number; quantity: number };
@@ -92,7 +93,13 @@ export function OrderActions({ order }: { order: OrderData }) {
           Confirm on WhatsApp
         </a>
         <button onClick={copyAddress} className="btn-secondary">
-          {copied ? "Copied ✓" : "Copy address for supplier"}
+          {copied ? (
+            <>
+              <Check className="mr-1.5 h-4 w-4" aria-hidden /> Copied
+            </>
+          ) : (
+            "Copy address for supplier"
+          )}
         </button>
       </div>
 
@@ -106,7 +113,7 @@ export function OrderActions({ order }: { order: OrderData }) {
               onClick={() => updateStatus(s)}
               className={`rounded-lg border px-3 py-1.5 text-sm font-medium capitalize ${
                 status === s
-                  ? "border-brand-600 bg-brand-600 text-white"
+                  ? "border-primary bg-primary text-white"
                   : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50"
               }`}
             >

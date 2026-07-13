@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { X } from "lucide-react";
 import { formatINR, paiseToRupees } from "@/lib/money";
 import { CATEGORIES } from "@/lib/config";
 
@@ -247,7 +248,7 @@ export function ProductManager() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => openEdit(p)}
-                        className="text-brand-600 hover:underline"
+                        className="text-primary hover:underline"
                       >
                         Edit
                       </button>
@@ -276,8 +277,9 @@ export function ProductManager() {
               <button
                 onClick={() => setShowForm(false)}
                 className="text-gray-400 hover:text-gray-700"
+                aria-label="Close"
               >
-                ✕
+                <X className="h-5 w-5" aria-hidden />
               </button>
             </div>
 
@@ -391,9 +393,10 @@ export function ProductManager() {
                       <Image src={url} alt="" fill sizes="80px" className="object-cover" />
                       <button
                         onClick={() => removeImage(url)}
-                        className="absolute right-0 top-0 bg-black/60 px-1 text-xs text-white"
+                        className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center bg-black/60 text-white"
+                        aria-label="Remove image"
                       >
-                        ✕
+                        <X className="h-3 w-3" aria-hidden />
                       </button>
                     </div>
                   ))}

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Minus, Plus, ShoppingCart, Check } from "lucide-react";
 import { useCart, type CartLine } from "@/lib/store/cart";
 
 export function AddToCart({ product }: { product: Omit<CartLine, "quantity"> }) {
@@ -24,33 +25,41 @@ export function AddToCart({ product }: { product: Omit<CartLine, "quantity"> }) 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <span className="text-sm font-medium text-gray-700">Quantity</span>
-        <div className="flex items-center rounded-lg border border-gray-300">
+        <span className="text-sm font-medium text-foreground">Quantity</span>
+        <div className="flex items-center rounded-sm border border-hairline">
           <button
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-            className="px-3 py-2 text-lg font-semibold text-gray-600 hover:bg-gray-50"
+            className="flex h-11 w-11 items-center justify-center text-foreground-muted hover:bg-surface"
             aria-label="Decrease quantity"
           >
-            −
+            <Minus className="h-4 w-4" aria-hidden />
           </button>
           <span className="min-w-10 text-center text-sm font-semibold">
             {quantity}
           </span>
           <button
             onClick={() => setQuantity((q) => Math.min(99, q + 1))}
-            className="px-3 py-2 text-lg font-semibold text-gray-600 hover:bg-gray-50"
+            className="flex h-11 w-11 items-center justify-center text-foreground-muted hover:bg-surface"
             aria-label="Increase quantity"
           >
-            +
+            <Plus className="h-4 w-4" aria-hidden />
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <button onClick={handleAdd} className="btn-secondary flex-1">
-          {added ? "Added ✓" : "Add to Cart"}
+      <div className="flex flex-col gap-3">
+        <button onClick={handleAdd} className="btn-primary w-full">
+          {added ? (
+            <>
+              <Check className="mr-1.5 h-4 w-4" aria-hidden /> Added to cart
+            </>
+          ) : (
+            <>
+              <ShoppingCart className="mr-1.5 h-4 w-4" aria-hidden /> Add to Cart
+            </>
+          )}
         </button>
-        <button onClick={handleBuyNow} className="btn-primary flex-1">
+        <button onClick={handleBuyNow} className="btn-secondary w-full">
           Buy Now
         </button>
       </div>
